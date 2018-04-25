@@ -13,6 +13,9 @@ from peek.identity import identity
 from peek.filtlen import filtlen
 from peek.chop import chop
 
+# test for snakemake file integration
+from peek.foo import bar
+
 
 @click.group()
 def cli():
@@ -25,3 +28,5 @@ cli.add_command(identity)
 cli.add_command(filtlen)
 cli.add_command(chop)
 
+# test for snakemake file integration
+cli.add_command(bar)
