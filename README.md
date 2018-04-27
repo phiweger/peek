@@ -85,14 +85,5 @@ peek offshore \
     -o ~/tmp/results
 ```
 
-reference
-
-
-
-fastq-dump SRR6453200
-head -n 10000 SRR6453200.fastq > mix.fastq && rm SRR6453200.fastq
-minimap2 -2 -t8 -ax sr ebola.fasta mix.fastq | samtools view -F4 | wc -l
-# 6
-
 
 
