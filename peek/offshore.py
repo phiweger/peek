@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 '''
 Execution script for snakemake workflows.
 
@@ -10,14 +9,12 @@ from snakemake import snakemake
 # import sys
 # import pprint
 import json
-
 import click
 
 
 thisdir = os.path.abspath(os.path.dirname(__file__))
 # print(__file__)  # stackoverflow.com/questions/779495
 # print(thisdir)   # the directory of offshore.py
-
 # default to thisdir + '/workflow/'
 
 
@@ -48,8 +45,8 @@ def offshore(snakefile, workflowfile, paramsfile, dryrun, outdir):
     \b
     cd peek/workflow/
     peek offshore \\
-        --paramsfile params-deplete.json \\
         --workflowfile workflow-deplete.json \\
+        --paramsfile params-deplete.json \\
         --snakefile Snakefile \\
         -o ~/tmp/results
     '''

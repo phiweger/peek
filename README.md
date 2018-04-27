@@ -69,18 +69,25 @@ Options:
 
 ## peek offshore
 
-e. coli
+The idea here is to not wrap command line tools w/ arbitrary python code, but to use [Snakemake](http://snakemake.readthedocs.io/en/latest/) behind the command line interface of a Python package, as e.g. illustrated [here](https://github.com/ctb/2018-snakemake-cli) and described in more detail [here](http://ivory.idyll.org/blog/2018-workflows-applications.html).
 
-https://www.ncbi.nlm.nih.gov/sra/SRX3997382[accn]
+Initially, only _host depletion_ is implemented. This means that we provide a reference genome and only care about reads that are not (or are) in this genome. For example in the following example data set, we only care for viral sequences but are not interested in the human reads present:
 
-ebola:
+- [Ebola data set](https://www.ncbi.nlm.nih.gov/sra/SRX3544109[accn]) -- a mixture of human cells and virus
+- [Ebola reference genome](https://www.ncbi.nlm.nih.gov/nuccore/LT605058.1)
 
-https://www.ncbi.nlm.nih.gov/sra/SRX3544109[accn]
-
+```bash
+cd peek/workflow/
+peek offshore \
+    --paramsfile params-deplete.json \
+    --workflowfile workflow-deplete.json \
+    --snakefile Snakefile \
+    -o ~/tmp/results
+```
 
 reference
 
-https://www.ncbi.nlm.nih.gov/nuccore/LT605058.1
+
 
 fastq-dump SRR6453200
 head -n 10000 SRR6453200.fastq > mix.fastq && rm SRR6453200.fastq
