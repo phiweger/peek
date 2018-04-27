@@ -66,3 +66,26 @@ Options:
   -f TEXT           Raw fastq file from e.g. Albacore basecaller  [required]
   --help            Show this message and exit.
 ```
+
+## peek offshore
+
+e. coli
+
+https://www.ncbi.nlm.nih.gov/sra/SRX3997382[accn]
+
+ebola:
+
+https://www.ncbi.nlm.nih.gov/sra/SRX3544109[accn]
+
+
+reference
+
+https://www.ncbi.nlm.nih.gov/nuccore/LT605058.1
+
+fastq-dump SRR6453200
+head -n 10000 SRR6453200.fastq > mix.fastq && rm SRR6453200.fastq
+minimap2 -2 -t8 -ax sr ebola.fasta mix.fastq | samtools view -F4 | wc -l
+# 6
+
+
+

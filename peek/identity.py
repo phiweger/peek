@@ -40,7 +40,8 @@ def identity(bam, o, header):
 
     Usage:
 
-    nanopeek identity --bam test.bam --header -o eval.tsv 
+    \b
+    nanopeek identity --bam test.bam --header -o eval.tsv
     head -n 4 eval.tsv
     # name length_query    length_reference    identity
     # 7b599a8b-69fc-4c87-9aea-1575d01223be    821 878 0.911

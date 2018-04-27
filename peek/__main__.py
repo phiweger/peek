@@ -14,7 +14,7 @@ from peek.filtlen import filtlen
 from peek.chop import chop
 
 # test for snakemake file integration
-from peek.foo import bar
+from peek.offshore import offshore
 
 
 @click.group()
@@ -29,4 +29,4 @@ cli.add_command(filtlen)
 cli.add_command(chop)
 
 # test for snakemake file integration
-cli.add_command(bar)
+cli.add_command(offshore)

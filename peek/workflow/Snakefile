@@ -1,0 +1,141 @@
+'''
+TODO:
+
+specify target rule on the command line and skipt workflow file (contains
+only one info?)
+
+https://github.com/snakemake-workflows/rna-seq-star-deseq2
+
+see
+
+http://ivory.idyll.org/blog/
+https://github.com/dahak-metagenomics/dahak
+https://dahak-metagenomics.github.io/dahak-taco/
+
+yaml, not json
+'''
+
+name = config['name']
+query = config['query']
+reference = config['reference']
+outdir = config['outdir']
+threads = config['threads']
+
+
+rule target1:
+     output:
+        'hello.txt'
+     shell:
+        'echo hello {name} > {output}'
+
+
+rule target2:
+     output:
+        'goodbye.txt'
+     shell:
+        'echo goodbye {name} > {output}'
+
+
+rule test:
+    output:
+        outdir  # no wildcard here, bc/ nothing passed to command line
+    shell:
+        '''
+        echo aln {query} to {reference} > {output}
+        '''
+
+
+# result: keep.fq, deplete.fq
+# https://stackoverflow.com/questions/44814874/dynamic-output-in-snakemake
+# https://groups.google.com/forum/#!topic/snakemake/XEdLejlUo4g
+# https://stackoverflow.com/questions/40941249/snakemake-is-there-a-way-to-specify-an-output-directory-for-each-rule
+rule hisat_index:
+    input:
+        reference
+    params:
+        directory = outdir
+    threads:
+        threads
+    output:
+        outdir + '/hisat/index.1.ht2',
+        outdir + '/hisat/index.2.ht2',
+        outdir + '/hisat/index.3.ht2',
+        outdir + '/hisat/index.4.ht2',
+        outdir + '/hisat/index.5.ht2',
+        outdir + '/hisat/index.6.ht2',
+        outdir + '/hisat/index.7.ht2',
+        outdir + '/hisat/index.8.ht2'
+    shell:
+        '''
+        hisat2-build -p {threads} {input} {params.directory}/hisat/index
+        '''
+
+
+rule deplete_illumina_unpaired_hisat:
+    input:
+        query = query,
+        index_1 = outdir + '/hisat/index.1.ht2',
+        index_2 = outdir + '/hisat/index.2.ht2',
+        index_3 = outdir + '/hisat/index.3.ht2',
+        index_4 = outdir + '/hisat/index.4.ht2',
+        index_5 = outdir + '/hisat/index.5.ht2',
+        index_6 = outdir + '/hisat/index.6.ht2',
+        index_7 = outdir + '/hisat/index.7.ht2',
+        index_8 = outdir + '/hisat/index.8.ht2',
+    params:
+        directory = outdir,
+        index = outdir + '/hisat/index',
+    threads:
+        threads
+    output:
+        outdir + '/ebola.sam'
+    shell:
+        '''
+        hisat2 -p {threads} -x {params.index} -U {input.query} -S {output}
+        '''
+
+
+rule deplete_illumina_unpaired_minimap2:
+    input:
+        query = query,
+        reference = reference,
+    params:
+        directory = outdir,
+    threads:
+        threads
+    output:
+        both = f'{outdir}/{name}.both.sam',
+        mapped = f'{outdir}/{name}.mapped.sam',
+        unmapped = f'{outdir}/{name}.unmapped.sam',
+    shell:
+        '''
+        minimap2 -2 -t{threads} -ax sr {input.reference} {input.query} \
+        > {output.both}
+        samtools view -F4 {output.both} > {output.mapped}
+        samtools view -f4 {output.both} > {output.unmapped}
+        '''
+
+# rule deplete_illumina_paired:
+# rule deplete_nanopore:
+
+
+'''
+write intermediate files to temporary directory, keep only if asked
+
+cd data/reference/prunus
+mkdir index_ht2
+hisat2-build both.fa index_ht2/both
+
+cd data
+TARGET=prunus/index_ht2/both
+FWD=illumina_fwd.trim.fq.gz
+REV=illumina_rev.trim.fq.gz
+
+# Hisat2 alignment
+hisat2 -x $TARGET -1 $FWD -2 $REV \
+    -p 8 \
+    --un-conc playground/un-conc_hisat.%.fq \
+    --no-spliced-alignment \
+    --seed 42 \
+    -S playground/host_deplete.sam
+'''

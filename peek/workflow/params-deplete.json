@@ -1,0 +1,6 @@
+{
+    "name": "ebola",
+    "reference": "ebola.fasta",
+    "query": "mix.fastq",
+    "threads": 4
+}
