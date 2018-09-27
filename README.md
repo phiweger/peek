@@ -48,11 +48,12 @@ Usage: peek stats [OPTIONS]
   # concatenate multiple fastq stats and plot using R
   peek stats --label bc01 -f BC01.fastq --summary > read_len_dist.tsv
   peek stats --label bc02 -f BC02.fastq --summary >> read_len_dist.tsv
-  R
 
+  # vis w/ R
   library(ggplot2)
   library(readr)
-  df <- read_tsv('read_len_dist.tsv', col_names=c('name', 'length', 'quality', 'label'))
+  df <- read_tsv(
+    'read_len_dist.tsv', col_names=c('name', 'length', 'quality', 'label'))
   ggplot(df, aes(x=length, colour=label)) +
       geom_histogram(bins=100) +
       scale_x_log10(labels=scales::comma)
