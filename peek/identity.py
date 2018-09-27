@@ -82,7 +82,7 @@ def smart_open(filename=None):
 @click.option(
     '--maxn', default=6, type=int, help='More than this number of consecutive N bases is considered a splice site and will not contribute to error calculation.')
 def identity(bam, o, header, maxn):
-    '''
+    '''Calculate per-base identity (1 - error rate).
     \b
     > The definition of 'identity' is the same as how BLAST defines it: the 
     number of matches in the alignment divided by the total bases in the 

@@ -12,9 +12,10 @@ from peek.normalize import normalize
 from peek.identity import identity
 from peek.filtlen import filtlen
 from peek.chop import chop
+from peek.pores import pores
 
 # test for snakemake file integration
-from peek.offshore import offshore
+# from peek.offshore import offshore
 
 
 @click.group()
@@ -27,6 +28,7 @@ cli.add_command(normalize)
 cli.add_command(identity)
 cli.add_command(filtlen)
 cli.add_command(chop)
+cli.add_command(pores)
 
 # test for snakemake file integration
-cli.add_command(offshore)
+# cli.add_command(offshore)
