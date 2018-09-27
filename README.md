@@ -2,6 +2,7 @@
 
 A couple of small utilities to quickly peek at results from nanopore-based sequencing runs.
 
+
 ### Install
 
 ```bash
@@ -11,6 +12,16 @@ git clone https://github.com/phiweger/peek
 cd peek 
 pip install -r requirements.txt -e .
 ```
+
+For plotting in R there are 3 dependencies:
+
+```r
+# R
+install.packages('ggplot2')
+install.packages('R.devices')
+install.packages('readr')
+```
+
 
 ### Usage
 
@@ -67,6 +78,7 @@ Options:
   -f TEXT           Raw fastq file from e.g. Albacore basecaller  [required]
   --help            Show this message and exit.
 ```
+
 
 ## peek offshore
 
