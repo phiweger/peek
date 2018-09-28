@@ -7,11 +7,11 @@ setup(
         'Click>=6.7',
         'biopython>=1.70',
         'maya',
-        'numpy',
+        'numpy<1.14.0',
         'tqdm>=4.7.2',
         'mappy',
         'scikit-bio',
-        'pandas',
+        'pandas<0.23.0',
         'pysam',
     ],
     entry_points={
