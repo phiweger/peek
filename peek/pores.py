@@ -67,7 +67,8 @@ def pores(infile, outdir, force, plot):
     print('Calculating read stats ...')
 
     for i in tqdm(fq):
-        uid, runid, r, ch, start = i.description.split(' ')  # ch .. channel
+        uid, runid, r, ch, start, *rest = i.description.split(' ')  
+        # ch .. channel
         ch = ch.split('=')[-1]  # ch=170
         t = maya.parse(start.split('=')[-1])  # start_time=2017-10-01T02:05:51Z
         l = len(i.seq)
